@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ka">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>სერგის ნათლობა</title>
+        <link rel="stylesheet" href="style.css">
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"></script>
+    </head>
+    <body class="intro-locked">
+        <!-- ═══ LOTTIE INTRO OVERLAY ═══ -->
+        <div id="intro-overlay">
+            <dotlottie-player
+                id="intro-bear"
+                src="Bear fly with pencil.lottie"
+                autoplay
+                loop
+            ></dotlottie-player>
+        </div>
+        <!-- ═══ MUSIC ═══ -->
+        <audio
+            id="bgMusic"
+            src="music.mp3"
+            loop
+            preload="auto"
+        ></audio>
+        <button class="music-toggle" id="musicToggle" aria-label="მუსიკა">
+            <span class="music-toggle__track">
+                <span class="music-toggle__thumb">
+                    <span class="music-toggle__icon">♪</span>
+                </span>
+            </span>
+        </button>
+        <div class="desktop-notice" id="desktopNotice">
+            <img src="weddsite.png" alt="Weddsite" class="desktop-notice__logo">
+            <p>გთხოვთ, გახსენით მობილური ტელეფონიდან</p>
+        </div>
+        <div class="site-wrap">
+            <!-- ═══ HERO ═══ -->
+            <section class="hero" id="hero">
+                <!-- Top clouds & balloon -->
+                <img
+                    src="clouds-bleed-over.png"
+                    class="deco clouds-tl"
+                    alt=""
+                    aria-hidden="true"
+                    data-reveal
+                    data-delay="0"
+                >
+                <img
+                    src="clouds-top-right.png"
+                    class="deco clouds-tr"
+                    alt=""
+                    aria-hidden="true"
+                    data-reveal
+                    data-delay="200"
+                >
+                <img
+                    src="air-baloon.png"
+                    class="deco air-baloon"
+                    alt=""
+                    aria-hidden="true"
+                    data-reveal
+                    data-delay="400"
+                >
+                <img
+                    src="air-baloon.png"
+                    class="deco air-baloon-2"
+                    alt=""
+                    aria-hidden="true"
+                    data-reveal
+                    data-delay="500"
+                >
+                <!-- Scattered feathers -->
+                <img
+                    src="feathers-left.png"
+                    class="deco feathers-left"
+                    alt=""
+                    aria-hidden="true"
+                    data-reveal
+                    data-delay="600"
+                >
+                <img
+                    src="feathers-right.png"
+                    class="deco feathers-right"
+                    alt=""
+                    aria-hidden="true"
+                    data-reveal
+                    data-delay="700"
+                >
+                <!-- Side leaf branches -->
+                <img
+                    src="leaf-left.png"
+                    class="deco leaf-left"
+                    alt=""
+                    aria-hidden="true"
+                    data-reveal
+                    data-delay="800"
+                >
+                <img
+                    src="leaf-right.png"
+                    class="deco leaf-right"
+                    alt=""
+                    aria-hidden="true"
+                    data-reveal
+                    data-delay="900"
+                >
+                <!-- Centre: photo + text -->
+                <div class="hero-content" data-reveal data-delay="1000">
+                    <img src="noe.png" class="hero-photo" alt="ნოე">
+                    <h1 class="hero-name">სერგის</h1>
+                    <p class="hero-sub">ნათლობა</p>
+                    <p class="hero-date">16 მაისი</p>
+                    <p class="hero-date">2026</p>
+                    <a href="https://maps.app.goo.gl/1Mk8PuwcXJS3QpGF7" target="_blank" rel="noopener noreferrer">
+                        <p class="hero-location">📍სოფელი მეფისქალაქი</p>
+                    </a>
+                </div>
+                <!-- Bottom decorations (back → front) -->
+                <!-- <img
+                src="toyes-bottom.png"
+                class="deco toyes"
+                alt=""
+                aria-hidden="true"
+            > -->
+                <!-- <img
+                src="flowers-bottom.png"
+                class="deco flowers-bottom"
+                alt=""
+                aria-hidden="true"
+            > -->
+                <!-- <img
+                src="dove.png"
+                class="deco dove"
+                alt=""
+                aria-hidden="true"
+            > -->
+                <img
+                    src="cubes.png"
+                    class="deco cubes"
+                    alt=""
+                    aria-hidden="true"
+                    data-reveal
+                    data-delay="1100"
+                >
+                <!-- <img
+                src="horse.png"
+                class="deco horse"
+                alt=""
+                aria-hidden="true"
+            > -->
+            </section>
+            <!-- ═══ PROGRAM ═══ -->
+            <section class="program" id="program">
+                <h2 class="program-title">დღის განრიგი</h2>
+                <div class="timeline" id="timeline">
+                    <!-- floating balloon that follows active item -->
+                    <img
+                        src="air-baloon.png"
+                        id="tlBalloon"
+                        class="tl-balloon"
+                        alt=""
+                        aria-hidden="true"
+                    >
+                    <!-- Item 1 -->
+                    <div class="tl-item" data-id="church">
+                        <button class="tl-card">
+                            <span class="tl-time">15:30</span>
+                            <img src="dove.png" class="tl-card-icon" alt="">
+                            <span class="tl-card-title">სოფელი მეფისქალაქი</span>
+                            <span class="tl-card-sub">ნათლობის ცერემონია</span>
+                        </button>
+                        <div class="tl-dot"></div>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="tl-item" data-id="reception">
+                        <button class="tl-card">
+                            <span class="tl-time">18:00</span>
+                            <img src="horse.png" class="tl-card-icon" alt="">
+                            <span class="tl-card-title">სოფელი მეფისქალაქი</span>
+                            <span class="tl-card-sub">სადღეგრძელო სუფრა</span>
+                        </button>
+                        <div class="tl-dot"></div>
+                    </div>
+                </div>
+                <img src="flowers-bottom.png" alt="">
+                <img
+                    class="clouds-bleed-over"
+                    src="clouds-bleed-over.png"
+                    alt=""
+                    data-reveal
+                    data-delay="200"
+                >
+            </section>
+            <!-- ═══ RSVP ═══ -->
+            <section class="rsvp" id="rsvp">
+                <h2 class="rsvp-title">დადასტურება</h2>
+                <form class="rsvp-form" id="rsvpForm">
+                    <label class="rsvp-label" for="guestName">სახელი</label>
+                    <input
+                        class="rsvp-input"
+                        id="guestName"
+                        name="guestName"
+                        type="text"
+                        required
+                        autocomplete="given-name"
+                    >
+                    <label class="rsvp-label" for="guestSurname">გვარი (არასავალდებულო)</label>
+                    <input
+                        class="rsvp-input"
+                        id="guestSurname"
+                        name="guestSurname"
+                        type="text"
+                        autocomplete="family-name"
+                    >
+                    <p class="rsvp-label">დასწრება</p>
+                    <div class="rsvp-options">
+                        <label class="rsvp-option">
+                            <input type="radio" name="attendance" value="yes" required>
+                            <span>წამოვალ</span>
+                        </label>
+                        <label class="rsvp-option">
+                            <input type="radio" name="attendance" value="no" required>
+                            <span>არ წამოვალ</span>
+                        </label>
+                    </div>
+                    <label class="rsvp-label" for="guestCount">რამდენი ადამიანი დაესწრება</label>
+                    <input
+                        class="rsvp-input"
+                        id="guestCount"
+                        name="guestCount"
+                        type="number"
+                        min="0"
+                        inputmode="numeric"
+                    >
+                    <button class="rsvp-submit" type="submit">გაგზავნა</button>
+                    <p class="rsvp-success" id="rsvpSuccess" hidden></p>
+                </form>
+            </section>
+            <!-- ═══ FOOTER ═══ -->
+            <footer class="site-footer">
+                <a
+                    class="footer-credit"
+                    href="https://www.instagram.com/weddsites/"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    <img src="weddsite.png" alt="Weddsite" class="footer-logo">
+                    <span>Made with ♥ by Weddsite</span>
+                </a>
+            </footer>
+        </div>
+        <!-- ═══ PROGRAM MODALS ═══ -->
+        <div class="modal-overlay" id="modalOverlay" aria-hidden="true">
+            <div
+                class="modal-box"
+                id="modalBox"
+                role="dialog"
+                aria-modal="true"
+            >
+                <button class="modal-close" id="modalClose" aria-label="დახურვა">✕</button>
+                <img
+                    class="modal-img"
+                    id="modalImg"
+                    src=""
+                    alt=""
+                >
+                <h3 class="modal-title" id="modalTitle"></h3>
+                <p class="modal-body" id="modalBody"></p>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>

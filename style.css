@@ -1,0 +1,919 @@
+/* ─────────────────────────────────────────────
+   MARIAMI BIRTHDAY — style.css
+   Mobile-first  |  Breakpoints: 481px, 769px
+───────────────────────────────────────────── */
+
+/* ─── FONTS ─── */
+@font-face {
+  font-family: 'SS GEO Brain Melt';
+  src: url('SS GEO Brain Melt.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── RESET ─── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a, .a {
+    text-decoration: none;
+}
+
+/* ─── VARIABLES ─── */
+:root {
+  --bg-main:    #fcfaf6;
+  --text-dark:  #5c7080;
+  --text-soft:  #8b9aaa;
+  --blue-light: #d3e0ea;
+  --blue-mid:   #a8c5d9;
+  --beige:      #e7d9c9;
+  --gold:       #c8a97e;
+  --white:      #ffffff;
+}
+
+/* ─── BASE ─── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'SS GEO Brain Melt', serif;
+  background-color: var(--bg-main);
+  overflow-x: hidden;
+}
+
+body.intro-locked {
+  overflow: hidden;
+}
+
+/* ─── CUSTOM SCROLLBAR ─── */
+::-webkit-scrollbar         { width: 6px; }
+::-webkit-scrollbar-track   { background: var(--bg-main); }
+::-webkit-scrollbar-thumb   { background: var(--blue-mid); border-radius: 3px; }
+*                            { scrollbar-width: thin; scrollbar-color: var(--blue-mid) var(--bg-main); }
+
+/* ─── DESKTOP NOTICE (hidden on mobile) ─── */
+.desktop-notice {
+  display: none;
+}
+
+/* ─── BALLOON INTRO LAYER ─── */
+#balloon-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  overflow: hidden;
+  transition: opacity 0.8s ease;
+}
+
+#balloon-layer.fade-out {
+  opacity: 0;
+}
+
+.heart-balloon {
+  position: absolute;
+  bottom: -160px;
+  left: var(--b-x, 50%);
+  width: var(--b-size, 70px);
+  height: calc(var(--b-size, 70px) * 1.5);
+  display: block;
+  animation: balloon-rise var(--b-dur, 3.2s) ease-in var(--b-delay, 0s) both;
+}
+
+
+@keyframes balloon-rise {
+  0%   { transform: translateY(0) rotate(var(--b-tilt, 0deg)); }
+  100% { transform: translateY(calc(-100vh - 320px)) rotate(var(--b-tilt, 0deg)); }
+}
+
+/* ─── MUSIC TOGGLE ─── */
+.music-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 600;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.music-toggle__track {
+  display: block;
+  width: 52px;
+  height: 28px;
+  border-radius: 14px;
+  background: var(--blue-light);
+  border: 1.5px solid var(--blue-mid);
+  position: relative;
+  transition: background 0.3s ease;
+}
+
+.music-toggle.playing .music-toggle__track {
+  background: var(--blue-mid);
+}
+
+.music-toggle__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: 0 1px 4px rgba(92,112,128,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.music-toggle.playing .music-toggle__thumb {
+  transform: translateX(24px);
+}
+
+.music-toggle__icon {
+  font-size: 11px;
+  color: var(--blue-mid);
+  line-height: 1;
+  transition: color 0.3s ease;
+}
+
+.music-toggle.playing .music-toggle__icon {
+  color: var(--text-dark);
+}
+
+/* ─── INTRO OVERLAY ─── */
+#intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background: transparent;
+}
+
+#intro-bear {
+  width: 220px;
+  height: 220px;
+  position: absolute;
+  left: -260px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: left 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#intro-bear.center {
+  left: calc(50% - 110px);
+}
+
+#intro-bear.exit {
+  left: calc(100% + 40px);
+  transition: left 0.85s cubic-bezier(0.4, 0, 0.8, 1);
+}
+
+/* ─── REVEAL SYSTEM ─── */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+[data-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* hero-content uses its own positioning — only fade, no translate */
+.hero-content[data-reveal] {
+  transform: none;
+  transition: opacity 0.7s ease;
+}
+
+.hero-content[data-reveal].revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* ─── IDLE FLOAT ANIMATIONS ─── */
+/* Single shared keyframe — gentle up/down */
+@keyframes idle-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+/* Each deco gets idle float after reveal, with slightly different duration/delay for variety */
+.clouds-tl.revealed  { animation: idle-float 5s ease-in-out 0.2s infinite; }
+.clouds-tr.revealed  { animation: idle-float 5.4s ease-in-out 0.6s infinite; }
+.air-baloon.revealed { animation: idle-float 4.2s ease-in-out 0s infinite; }
+.air-baloon-2.revealed { animation: idle-float 4.6s ease-in-out 0.4s infinite; }
+.feathers-left.revealed  { animation: idle-float 5.8s ease-in-out 0.3s infinite; }
+.feathers-right.revealed { animation: idle-float 5.2s ease-in-out 0.7s infinite; }
+.leaf-left.revealed  { animation: idle-float 6s ease-in-out 0.1s infinite; }
+.leaf-right.revealed { animation: idle-float 5.6s ease-in-out 0.5s infinite; }
+.cubes.revealed            { animation: idle-float 4.8s ease-in-out 0.2s infinite; }
+.clouds-bleed-over.revealed { animation: idle-float 5.2s ease-in-out 0.4s infinite; }
+
+/* ─── BALLOON INTRO LAYER ─── */
+
+/* ─── SITE WRAP ─── */
+.site-wrap {
+  position: relative;
+}
+
+
+
+
+
+
+/* ─── HERO ─── */
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  background-image: url('bg.png');
+  background-size: cover;
+  background-position: center top;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+
+.deco {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  display: block;
+}
+
+
+/* ── Top clouds ── */
+.clouds-tl {
+  top: 0;
+  left: -4%;
+  width: 84%;
+  z-index: 1;
+}
+
+.clouds-tr {
+  top: 0;
+  right: -6%;
+  width: 58%;
+  z-index: 1;
+}
+
+/* ── Air balloon ── */
+.air-baloon {
+  top: 8%;
+  left: 7%;
+  width: 78px;
+  z-index: 4;
+}
+.air-baloon-2 {
+  bottom: 22%;
+  right: 2%;
+  width: 4rem;
+  z-index: 4;
+  transform: rotate(15deg);
+}
+
+/* ── Feathers ── */
+.feathers-right {
+  top: 18%;
+  right: 2px;
+  width: 52px;
+  z-index: 2;
+}
+
+.feathers-left {
+  top: 20%;
+  left: 0;
+  width: 60px;
+  z-index: 2;
+}
+
+/* ── Side leaf branches ── */
+.leaf-left {
+  top: 36%;
+  left: -14px;
+  width: 5rem;
+  z-index: 2;
+}
+
+.leaf-right {
+  top: 32%;
+  right: -10px;
+  width: 4rem;
+  z-index: 2;
+}
+
+/* ── Bottom decorations ── */
+.toyes {
+  bottom: 0;
+  left: 50%;
+    right: 50%;
+    transform: translateX(-50%);
+  width: 100%;
+  z-index: 2;
+}
+
+.flowers-bottom {
+  bottom: 13%;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  width: 16rem;
+  z-index: 3;
+}
+
+.dove {
+  bottom: 4%;
+  left: 2%;
+    width: 7rem;
+  z-index: 5;
+}
+
+.cubes {
+    bottom: 15%;
+      left: 0;
+    width: 5rem;
+      z-index: 5;
+}
+
+.horse {
+  bottom: 2%;
+    right: 2%;
+    width: 7rem;
+    z-index: 5;
+}
+
+/* ── Hero content: photo + text ── */
+.hero-content {
+  position: relative;
+  margin: 0 auto;
+  margin-top: 24vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 10;
+  width: 220px;
+}
+
+.hero-photo-frame {
+  width: 138px;
+  height: 138px;
+  border-radius: 50%;
+  background: var(--blue-mid);
+  padding: 8px;
+  box-shadow:
+    0 0 0 5px var(--white),
+    0 0 0 12px var(--blue-mid),
+    0 0 0 16px var(--blue-light);
+  flex-shrink: 0;
+}
+
+.hero-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-name {
+  font-family: 'SS GEO Brain Melt', serif;
+  font-size: 38px;
+  color: var(--text-dark);
+  letter-spacing: 4px;
+  text-align: center;
+  line-height: 1;
+  margin-top: 6px;
+}
+
+.hero-sub {
+  font-family: 'SS GEO Brain Melt', serif;
+  font-size: 15px;
+  color: var(--text-soft);
+  letter-spacing: 5px;
+  text-align: center;
+}
+
+.hero-date {
+  font-family: 'SS GEO Brain Melt', serif;
+  font-size: 13px;
+  color: var(--text-soft);
+  letter-spacing: 3px;
+  text-align: center;
+}
+.hero-location {
+  font-family: 'SS GEO Brain Melt', serif;
+  font-size: 14px;
+  color: var(--text-soft);
+  letter-spacing: 3px;
+  text-align: center;
+}
+
+
+/* ─── PROGRAM SECTION ─── */
+.program {
+  position: relative;
+  background-color: var(--bg-main);
+  padding: 48px 20px 64px;
+  overflow-y: visible;
+  overflow-x: clip;
+}
+
+.program-title {
+  font-family: 'SS GEO Brain Melt', serif;
+  font-size: 20px;
+  color: var(--text-dark);
+  letter-spacing: 5px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.program-title::before,
+.program-title::after {
+  content: '✦';
+  font-size: 12px;
+  color: var(--blue-mid);
+  margin: 0 10px;
+  vertical-align: middle;
+}
+
+/* ─── TIMELINE ─── */
+
+
+.clouds-bleed-over{
+  position: absolute;
+  top: -9%;
+  width: 100%;
+  left: -1rem;
+
+}
+
+.timeline {
+  position: relative;
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 8px 0 40px;
+}
+
+/* Vertical center line */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--blue-mid) 8%,
+    var(--blue-mid) 92%,
+    transparent
+  );
+  transform: translateX(-50%);
+  z-index: 0;
+}
+
+/* Each row — card always on the left of the center line */
+.tl-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 52px;
+  min-height: 130px;
+  padding-right: calc(50% + 14px);
+}
+
+/* Dot on center line */
+.tl-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2.5px solid var(--blue-mid);
+  box-shadow: 0 0 0 5px rgba(168, 197, 217, 0.25);
+  z-index: 2;
+  transition: all 0.4s ease;
+}
+
+.tl-item.active .tl-dot {
+  background: var(--blue-mid);
+  width: 18px;
+  height: 18px;
+  box-shadow: 0 0 0 7px rgba(168, 197, 217, 0.35), 0 0 16px rgba(168, 197, 217, 0.5);
+}
+
+/* Card */
+.tl-card {
+  width: 100%;
+  background: var(--white);
+  border: 1.5px solid var(--blue-light);
+  border-radius: 20px;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(168, 197, 217, 0.2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  font-family: 'SS GEO Brain Melt', serif;
+  text-align: center;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: var(--white);
+}
+
+.tl-card:hover,
+.tl-item.active .tl-card {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(168, 197, 217, 0.38);
+}
+
+.tl-time {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--blue-mid);
+  background: var(--blue-light);
+  padding: 3px 10px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.tl-card-icon {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  margin: 4px 0;
+  filter: drop-shadow(0 2px 6px rgba(168, 197, 217, 0.4));
+}
+
+.tl-card-title {
+  font-size: 11px;
+  color: var(--text-dark);
+  letter-spacing: 1.5px;
+  line-height: 1.5;
+  display: block;
+}
+
+.tl-card-sub {
+  font-size: 10px;
+  color: var(--text-soft);
+  letter-spacing: 1px;
+  display: block;
+}
+
+/* ─── TIMELINE FLOATING BALLOON ─── */
+.tl-balloon {
+  position: absolute;
+  left: calc(50% + 3rem);
+  top: -180px;
+  width: 5rem;
+  
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0;
+  transition: top 0.9s cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 0.4s ease;
+  animation: tl-float 3s ease-in-out infinite;
+}
+
+.tl-balloon.visible {
+  opacity: 1;
+}
+
+/* dip class only used as a JS hook — actual offset applied inline */
+
+@keyframes tl-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+/* ─── RSVP SECTION ─── */
+.rsvp {
+  background-color: var(--bg-main);
+  padding: 0 20px 64px;
+}
+
+.rsvp-title {
+  font-family: 'SS GEO Brain Melt', serif;
+  font-size: 20px;
+  color: var(--text-dark);
+  letter-spacing: 5px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.rsvp-title::before,
+.rsvp-title::after {
+  content: '✦';
+  font-size: 12px;
+  color: var(--blue-mid);
+  margin: 0 10px;
+  vertical-align: middle;
+}
+
+.rsvp-form {
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 20px 16px;
+  border: 1.5px solid var(--blue-light);
+  border-radius: 20px;
+  background-color: var(--white);
+  box-shadow: 0 4px 18px rgba(168, 197, 217, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rsvp-label {
+  font-size: 13px;
+  color: var(--text-dark);
+  letter-spacing: 1.5px;
+}
+
+.rsvp-input {
+  width: 100%;
+  border: 1.5px solid var(--blue-light);
+  border-radius: 12px;
+  background-color: var(--bg-main);
+  color: var(--text-dark);
+  font-family: 'SS GEO Brain Melt', serif;
+  font-size: 14px;
+  padding: 11px 12px;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.rsvp-input:focus {
+  outline: none;
+  border-color: var(--blue-mid);
+  box-shadow: 0 0 0 3px rgba(168, 197, 217, 0.28);
+}
+
+.rsvp-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.rsvp-option {
+  position: relative;
+  display: flex;
+}
+
+.rsvp-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rsvp-option span {
+  width: 100%;
+  border: 1.5px solid var(--blue-light);
+  border-radius: 12px;
+  background-color: var(--bg-main);
+  color: var(--text-soft);
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-align: center;
+  padding: 11px 10px;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.rsvp-option input:checked + span {
+  background-color: var(--blue-mid);
+  border-color: var(--blue-mid);
+  color: var(--text-dark);
+}
+
+.rsvp-submit {
+  margin-top: 2px;
+  border: 1.5px solid var(--blue-mid);
+  border-radius: 12px;
+  background-color: var(--blue-light);
+  color: var(--text-dark);
+  font-family: 'SS GEO Brain Melt', serif;
+  font-size: 14px;
+  letter-spacing: 2px;
+  padding: 11px 12px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+.rsvp-submit:active {
+  transform: translateY(1px);
+}
+
+.rsvp-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.rsvp-success {
+  text-align: center;
+  color: var(--text-soft);
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+
+
+.site-footer {
+  background-color: var(--text-dark);
+  padding: 10px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.footer-credit:hover {
+  opacity: 1;
+}
+
+.footer-logo {
+  width: 42px;
+  height: auto;
+  display: block;
+}
+
+.footer-credit span {
+  font-family: 'SS GEO Brain Melt', serif;
+  font-size: 13px;
+  color: white;
+  letter-spacing: 1px;
+}
+
+/* ─── PROGRAM MODALS ─── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background-color: rgba(92, 112, 128, 0.38);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-box {
+  position: relative;
+  background: linear-gradient(160deg, #f8fbff 0%, #e8f3f9 100%);
+  border-radius: 28px;
+  padding: 36px 28px 32px;
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 12px 48px rgba(60, 100, 130, 0.22);
+  transform: translateY(24px) scale(0.96);
+  transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+  opacity: 0;
+}
+
+.modal-overlay.active .modal-box {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--text-soft);
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+}
+
+.modal-img {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(180, 60, 100, 0.18));
+}
+
+.modal-title {
+  font-family: 'SS GEO Brain Melt', serif;
+  font-size: 20px;
+  color: var(--text-dark);
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.modal-body {
+  font-family: 'SS GEO Brain Melt', serif;
+  font-size: 14px;
+  color: var(--text-soft);
+  text-align: center;
+  line-height: 1.7;
+  letter-spacing: 0.5px;
+}
+
+/* ─── PROGRAM 481px+ ─── */
+@media (min-width: 481px) {
+  .prog-butterflies { width: 68px; }
+  .prog-wand        { width: 80px; }
+  .prog-balloons    { width: 96px; }
+  .prog-vine-l      { width: 74px; }
+  .prog-vine-r      { width: 68px; }
+  .prog-carriage    { max-width: 400px; }
+  .prog-img         { width: 90px; height: 90px; }
+  .prog-img--fairies { width: 108px; height: 90px; }
+  .prog-label       { font-size: 19px; }
+  .program-title    { font-size: 26px; }
+}
+
+/* ─── 481px+ ─── */
+@media (min-width: 481px) {
+  .flowers-tl   { width: 162px; }
+  .flowers-tr   { width: 138px; }
+  .flowers-bl   { width: 166px; }
+  .flowers-br   { width: 148px; }
+  .crown        { width: 148px; }
+  .unicorn      { width: 150px; }
+  .castle       { width: 160px; }
+  .butterflies  { width: 76px; top: 36%; }
+  .vine-left    { width: 60px; }
+  .deco-right   { width: 70px; }
+  .wand         { width: 92px; }
+  .balloons     { width: 106px; }
+  .mariami-photo { width: 68%; max-width: 340px; }
+  .age-number   { font-size: 130px; }
+  .hero-name    { font-size: 40px; }
+  .hero-invite  { font-size: 15px; }
+  .hero-date    { font-size: 20px; }
+}
+
+/* ─── 769px+ (desktop → show notice, hide site) ─── */
+@media (min-width: 769px) {
+  .desktop-notice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
+    background-color: var(--bg-main);
+    z-index: 9999;
+    gap: 20px;
+  }
+
+  .desktop-notice__logo {
+    width: 52px;
+    opacity: 0.8;
+  }
+
+  .desktop-notice p {
+    font-family: 'SS GEO Brain Melt', serif;
+    font-size: 18px;
+    color: var(--text-dark);
+    text-align: center;
+    padding: 0 32px;
+  }
+
+  .site-wrap {
+    display: none;
+  }
+}
